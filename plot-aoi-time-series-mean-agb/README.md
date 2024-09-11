@@ -7,7 +7,7 @@ This subdirectory contains a Jupyter notebook that shows how to use Python to co
 
 ## Install Packages
 Run the following command to install the Python packages:
-```shell
+```
 pip install -r requirements.txt
 ```
 The Jupyter package will be installed as part of the requirements.
@@ -24,7 +24,7 @@ If you don't have the database credentials, click [here](https://cecil.earth/get
 
 ## Start Jupyter Server
 Start a Jupyter server:
-```shell
+```
 jupyter notebook
 ```
 The Jupyter UI will be opened in your browser. You can also access the UI using this url:
