@@ -1,0 +1,5 @@
+geopandas==1.0.1
+jupyter==1.1.1
+matplotlib==3.9.2
+snowflake-connector-python==3.12.1
+snowflake-connector-python[pandas]
