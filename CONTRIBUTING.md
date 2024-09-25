@@ -62,4 +62,4 @@ Use Snowflake capabilities as much as possible to fetch and compute the data. Pl
 
 ## Publishing
 
-Update the top-level `README.md` file with a brief one-paragraph description following the standard from other code examples (e.g. Capitalised titles, lowercase-dash-directory-names).
+Please include a brief description in your pull request following the standard from other code examples (e.g. Capitalised titles, lowercase-dash-directory-names) in our [documentation](https://docs.cecil.earth).
