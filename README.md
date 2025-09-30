@@ -1,6 +1,6 @@
 # Code examples
 
-## Snippets / recipes / basics / howtos / quickstarts / use cases
+## Use cases
 
 - [Filter NoData](filter-nodata)
 - [Reproject CRS and spatial resolution](reproject-dataset)
