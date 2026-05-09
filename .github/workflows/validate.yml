@@ -1,0 +1,86 @@
+name: Validate notebooks and skills
+
+on:
+  pull_request:
+    paths:
+      - "**.ipynb"
+      - "skills/**"
+  push:
+    branches: [main]
+    paths:
+      - "**.ipynb"
+      - "skills/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install nbformat pyyaml
+
+      - name: Validate notebooks
+        run: |
+          python - <<'PY'
+          import glob, sys
+          import nbformat
+
+          fails = []
+          for path in glob.glob("**/*.ipynb", recursive=True):
+              try:
+                  nbformat.validate(nbformat.read(path, as_version=4))
+                  print(f"ok: {path}")
+              except Exception as e:
+                  print(f"FAIL: {path}: {e}")
+                  fails.append(path)
+
+          sys.exit(1 if fails else 0)
+          PY
+
+      - name: Validate skill frontmatter
+        run: |
+          python - <<'PY'
+          import glob, sys
+          import yaml
+
+          REQUIRED = ("name", "description", "license")
+          fails = []
+
+          for path in sorted(glob.glob("skills/*/SKILL.md")):
+              text = open(path).read()
+              if not text.startswith("---\n"):
+                  fails.append(f"{path}: missing YAML frontmatter")
+                  continue
+              try:
+                  _, frontmatter, _ = text.split("---\n", 2)
+              except ValueError:
+                  fails.append(f"{path}: malformed frontmatter delimiters")
+                  continue
+              try:
+                  data = yaml.safe_load(frontmatter) or {}
+              except yaml.YAMLError as e:
+                  fails.append(f"{path}: invalid YAML: {e}")
+                  continue
+
+              for field in REQUIRED:
+                  if field not in data:
+                      fails.append(f"{path}: missing '{field}'")
+
+              expected = path.split("/")[-2]
+              if data.get("name") != expected:
+                  fails.append(f"{path}: name '{data.get('name')}' does not match directory '{expected}'")
+
+              if data.get("license") != "MIT":
+                  fails.append(f"{path}: license must be 'MIT'")
+
+              print(f"ok: {path}")
+
+          for f in fails:
+              print(f)
+          sys.exit(1 if fails else 0)
+          PY
