@@ -50,7 +50,7 @@ Use this skill when the user has more than one site/plot/property and wants the 
 
 4. **Wait for staging.** Subscriptions process asynchronously. Poll each one (or all of them in parallel) using the `subscribe-and-load` polling pattern. For large portfolios, fan out with `concurrent.futures.ThreadPoolExecutor` so plots stage in parallel.
 
-5. **Return the result table** as a `pandas.DataFrame`. Downstream skills (`deforestation-risk-screen`, `land-cover-baseline-and-change`, `priority-biome-overlap`, `eudr-due-diligence`) take this table as input.
+5. **Return the result table** as a `pandas.DataFrame`. Downstream skills (e.g. `land-cover-baseline-and-change`) take this table as input.
 
 ## Important constraints
 
